@@ -20,3 +20,5 @@ interval = setInterval(function(){
 }, 1000);
 ```
 4. Press Enter.
+
+<a href="https://user-images.githubusercontent.com/31100945/29992087-17962570-8fc6-11e7-87b9-698561973c3e.gif" target="_blank"><img src="https://user-images.githubusercontent.com/31100945/29992087-17962570-8fc6-11e7-87b9-698561973c3e.gif" alt="56c6bd17-d834-480c-y917-4b719f91eb03" style="max-width:100%;"></a>
