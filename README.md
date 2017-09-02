@@ -1,6 +1,6 @@
 # Unfllower
 Unfollow all the companies or contacts you don't need in one click.
-Add topics
+
 
 
 # Can I bulk unfollow people or companies on LinkedIn?
