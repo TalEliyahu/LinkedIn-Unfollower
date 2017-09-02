@@ -8,7 +8,7 @@ Unfollow all the contacts you don't need in one click
 2. Press F12 to see the console.
 3. Copy Paste this to console and see the magic happing.
 
-var buttons = $("button"),
+```var buttons = $("button"),
 interval = setInterval(function(){
 	var btn = $('.is-following');
    	console.log("Clicking:", btn);
