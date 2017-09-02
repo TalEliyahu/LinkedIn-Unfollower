@@ -1,5 +1,5 @@
 # Unfllower
-Unfollow all the companies or contacts you don't need in one click Edit
+Unfollow all the companies or contacts you don't need in one click.
 Add topics
 
 
