@@ -7,7 +7,7 @@ Add topics
 
 1. If you are using chrome go the page that shows who you are following  https://www.linkedin.com/feed/following/
 2. Press F12 to see the console.
-3. Copy Paste this to console and see the magic happing.
+3. Copy Paste this to console:
 
 ```var buttons = $("button"),
 interval = setInterval(function(){
@@ -18,3 +18,5 @@ interval = setInterval(function(){
     	clearInterval(interval);
     }
 }, 1000);
+```
+4. Press Enter.
