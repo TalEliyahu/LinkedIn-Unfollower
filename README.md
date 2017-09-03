@@ -36,3 +36,17 @@ CheckPageEnd(0);
 
 <a href="https://user-images.githubusercontent.com/31100945/29992087-17962570-8fc6-11e7-87b9-698561973c3e.gif" target="_blank"><img src="https://user-images.githubusercontent.com/31100945/29992087-17962570-8fc6-11e7-87b9-698561973c3e.gif" alt="56c6bd17-d834-480c-y917-4b719f91eb03" style="max-width:100%;"></a>
 
+
+# Using the Chrome Extension to bulk unfollow people or companies on LinkedIn
+
+You can also use the Chrome Extension to to bulk unfollow people or companies.
+1. Open the extension popup by clicking on the extension icon.
+2. Select an option "Unfollow People You are Following" or "Unfollow People Who are Following You"
+3. Then it will open target option page and ask "Are You Sure You Want to Unfollow All Peoples?" Click on "Yes".
+Now it will auto scroll and unfollow all people or companies and it will show you the progress. Click on "Stop" to stop unfollowing.
+
+
+# Compiling and installing the extension
+
+Modifying The Manifest File
+The “manifest.json” file is containing all information of the extension. Modify this file to update the extension name, description and icon.
