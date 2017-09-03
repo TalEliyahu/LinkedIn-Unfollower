@@ -53,4 +53,14 @@ The “manifest.json” file is containing all information of the extension. Mod
 
 Compiling to Chrome Extension Package
 To compile the source files, first switch to “Developer mode” from (chrome://extensions) the extension page of Chrome.
+
 <img src="http://i.imgur.com/WhUfT0H.png" style="max-width:100%;">
+
+Now click on “Pack extension…” button the select the folder congaing the source files and pack the extension. The “Private key file” is not required.
+
+<img src="http://i.imgur.com/P6V4SK3.png" style="max-width:100%;">
+
+Installing:
+Just drag and drop the packed extension (.crx) file to install it.
+
+<img src="http://i.imgur.com/bYBaZb3.png" style="max-width:100%;">
