@@ -4,15 +4,28 @@
 2. Press F12 to see the console.
 3. Copy Paste this to console:
 
-```var buttons = $("button"),
-interval = setInterval(function(){
-	var btn = $('.is-following');
-   	console.log("Clicking:", btn);
-    btn.click();
-    if (buttons.length === 0) {
-    	clearInterval(interval);
-    }
+```TotalUnfollowed = 0;
+var UnfollowFunction = setInterval(function() {
+ var UnfollowButton = document.querySelectorAll("ul > li [data-control-name=\"actor_follow_toggle\"].is-following");
+ for(var i = UnfollowButton.length - 1; i>=0; i--) {
+  TotalUnfollowed++;
+  UnfollowButton[i].click();
+ }
 }, 1000);
+var ScrollToBottom = setInterval(function() {
+ window.scrollBy(0, 12.5);
+}, 15);
+function CheckPageEnd(LastHeight) {
+ var CurrentHeight = document.body.scrollHeight;
+ if(!(CurrentHeight > LastHeight)) {
+  clearInterval(ScrollToBottom);
+  clearInterval(UnfollowFunction);
+  alert("Total Unfollowed: " + TotalUnfollowed);
+ } else setTimeout(function() {
+  CheckPageEnd(CurrentHeight);
+ }, 7.5*1000);
+}
+CheckPageEnd(0);
 ```
 4. Press Enter. 
 
