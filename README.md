@@ -53,5 +53,4 @@ The “manifest.json” file is containing all information of the extension. Mod
 
 Compiling to Chrome Extension Package
 To compile the source files, first switch to “Developer mode” from (chrome://extensions) the extension page of Chrome.
-[![alt text][2.2]]
-[2.2]: http://i.imgur.com/WhUfT0H.png
+<img src="http://i.imgur.com/WhUfT0H.png" style="max-width:100%;">
