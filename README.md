@@ -73,6 +73,8 @@ The popup.js file is using "chrome.extension.sendMessage" api to send message to
 
 # unfollow.js
 
+You can also copy paste the codes of unfollow.js to console to get the unfollow feature with nice UI.      
+
 ```
 function isHidden(el) {
 	if(el) return (el.offsetParent === null);
@@ -137,4 +139,39 @@ var CatchLoadingAnimation = setInterval(function(){
 		/* END: RUN AFTER PAGE LOAD COMPLETE */
 	}
 }, 1000);
+```
+
+The CheckPageEnd() function will check for lsit end. When there are no more unfollow button, it will stop the task and show result.
+
+```
+			function CheckPageEnd(LastHeight) {
+				var CurrentHeight = document.body.scrollHeight;
+				if(!(CurrentHeight > LastHeight)) {
+					clearInterval(ScrollToBottom);
+					clearInterval(UnfollowFunction);
+					document.querySelectorAll("#LiUnfollow [name=Message]")[0].style.display = "block";
+					document.querySelectorAll("#LiUnfollow [name=Stop]")[0].innerHTML = "Close";
+				} else setTimeout(function() {
+					CheckPageEnd(CurrentHeight);
+				}, 7.5*1000);
+			}
+```
+The ScrollToBottom function will auto scroll to bottom  to discover unfollow able people.
+
+```
+			ScrollToBottom = setInterval(function() {
+				window.scrollBy(0, 12.5);
+			}, 15);
+```
+The UnfollowFunction will click on unfollow buttons. It will check for unfollow button every second.
+
+```
+			UnfollowFunction = setInterval(function() {
+				var UnfollowButton = document.querySelectorAll("ul > li [data-control-name=\"actor_follow_toggle\"].is-following");
+				for(var i = UnfollowButton.length - 1; i>=0; i--) {
+					TotalUnfollowed++;
+					UnfollowButton[i].click();
+					document.querySelectorAll("#LiUnfollow [name=TotalUnfollowed]")[0].innerHTML = Number(document.querySelectorAll("#LiUnfollow [name=TotalUnfollowed]")[0].innerHTML) + 1;
+				}
+			}, 1000);
 ```
