@@ -71,6 +71,7 @@ Just drag and drop the packed extension (.crx) file to install it.
 We used pure JavaScript to develop this extension. There is no JS library.
 The popup.js file is using "chrome.extension.sendMessage" api to send message to the background.js file. The background file is opening target URL in the active tab and executing the unfollow.js file on that tab.
 
-```	chrome.tabs.executeScript([TAB ID], {
+```	chrome.tabs.executeScript(TAB ID, {
 		file: "unfollow.js"
-	});```
+	});
+```
