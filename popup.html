@@ -6,131 +6,66 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         <style>
 			body {
-				margin: 0;
-				padding: 0;
-				text-align: left;
-				width: 300px;
-				font-size: 14px;
-				font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
-				font-weight: normal;
 				background: #f6f7f9;
-				color: #4b4f56;
 				border: 1px solid #ced0d4;
-				border-bottom-width: 2px;
+				cursor: default;
+				font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
+				margin: 0;
+				width: 18rem;
 			}
 			a {
+				color: inherit;
 				text-decoration: none;
-				font-size:12px;
-				color: #008cc9;
 			}
-			label {
-				margin-top: 10px;
-				margin-bottom: 5px;
-				display: inline-block;
+			
+			header, footer {
+				background: #005E93;
+				color: aliceblue;
+				display: flex;
+				height: 2rem;
 			}
-			label:first-child {
-				margin-top: 0px;
-				margin-bottom: 5px;
-				display: inline-block;
+			header {
+				align-items: center;
+				border-bottom: 1px solid #ced0d4;
+				font-size: 120%;
+				justify-content: center;
 			}
 
-			.content-panel {
-				padding: 7.5px 7.5px 7.5px 7.5px;
-				font-weight: normal;
-				font-size: 13px;
-			}
-			input[type="number"], input[type="password"], input[type="email"], input[type="tel"], input[type="text"], input[type="file"], select
-			{
-				color: #4b4f56;
-				border: 1px solid #ced0d4;
-				padding: 0 8px;
-				margin-bottom: 1px;
-				line-height: 27.5px;
-				font-weight: normal;
-				font-size: 14px;
-				width: 317px;
-				font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, "sans-serif";
-			}
-			.error-message {
-				color: #a94442;
-				border: 1px solid #ebccd1;
-				padding: 5px 7.5px;
-				margin-bottom: 1px;
-				font-weight: normal;
-				font-size: 13px;
-				width: 266px;
-				margin: 7.5px 7.5px 0px 7.5px;
-				background: #f2dede;
-				text-align: center;
-			}
-			.success-message {
-				color: #3c763d;
-				border: 1px solid #d6e9c6;
-				padding: 0 8px;
-				margin-bottom: 1px;
-				font-weight: normal;
-				font-size: 13px;
-				width: 266px;
-				margin: 7.5px 7.5px 0px 7.5px;
-				background: #dff0d8;
-				text-align: center;
-			}
-			nav {
-				color: aliceblue;
-				background-color: #005E93;
-				border-bottom: 1px solid #ced0d4;
-				font-size: 11px;
-				text-transform: uppercase;
-				letter-spacing: 0.75px;
-				font-family: Helvetica, Arial, sans-serif;
-			}
-			nav span {
-				padding: 8.5px 10.5px 9.5px 10.5px;
-				display: inline-block;
-				border-left: 1px solid #ced0d4;
-				cursor: pointer;
-				margin-right: -5px;
-			}
-			nav span:first-child {
-				border-left: 0;
-			}
-			.actions {
-				background-color: #005E93;
-				border-top: 1px solid #ced0d4;
-				padding: 7.5px;
-				text-align: left;
-			}
-			button, button[type=button] {
-				background-color: #f6f7f9;
-				color: #4b4f56;
-				border: 1px solid #ced0d4;
-				padding: 0 8px;
-				line-height: 27.5px;
-				font-size: 11px;
-				text-transform: uppercase;
-				letter-spacing: 0.75px;
-				font-family: Helvetica, Arial, sans-serif;
-				margin-right: 5px;
-			}
-			button[type=submit] {
-				background-color: #008cc9;
-				color: #ffffff;
-				border: 1px solid #4267b2;
-			}
-			
 			#menu {
-				padding: 7.5px;
-				font-size: 14px;
+				color: black;
+				list-style-type: square;
 			}
-			
 			#menu .expandable>.details {display: none;}
 			#menu .expandable.expanded>.details {display: inline;}
 			#menu .expandable>.expander::after {content: '…';}
 			#menu .expandable.expanded>.expander::after {content: ':';}
+			#menu a:hover {
+				text-decoration: underline;
+			}
+			
+			footer {
+				align-items: center;
+				border-top: 1px solid #ced0d4;
+				padding: 0 0.35rem;
+			}
+			footer button#close {
+				background: #f6f7f9;
+				border: 1px solid #ced0d4;
+				color: #4b4f56;
+				font-family: Helvetica, Arial, sans-serif;
+				font-size: 90%;
+				height: 1.3rem;
+				letter-spacing: 0.75px;
+				text-transform: uppercase;
+			}
+			footer .bottom-links {
+				flex-grow: 1;
+				text-align: right;
+			}
 		</style>
     </head>
     <body>
-		<div style="color: aliceblue; background-color: #005E93; border-bottom: 1px solid #ced0d4; padding: 7.5px; text-align: center; cursor: default;">LinkedIn Unfollower</div>
+		<header>LinkedIn Unfollower</header>
 		<ul id="menu">
 			<li class="expandable"><a class="expander">Unfollow People You are Following</a><span class="details">
 				<ul>
@@ -151,14 +86,14 @@
 			</span></li>
 			<li><a data-command="withdrawSentInvitations">Withdraw Sent Invitations</a></li>
 		</ul>
-		<div class="actions">
+		<footer>
 			<button id="close">Close</button>
-			<span style="float: right; color: aliceblue; padding: 5px 0 0 0;">
-				<a href="https://ste.sg/" target="_blank" style="color: aliceblue;">Visit our website STE.sg</a>
-					| 
-				<a href="https://github.com/Singapore-Tech-Entrepreneurs/LinkedIn-Unfollower" target="_blank" style="color: aliceblue;">GitHub project</a>
+			<span class="bottom-links">
+				<a href="https://ste.sg/" target="_blank">Visit our website STE.sg</a>
+				| 
+				<a href="https://github.com/Singapore-Tech-Entrepreneurs/LinkedIn-Unfollower" target="_blank">GitHub project</a>
 			</span>
-		</div>
+		</footer>
 		<script type="text/javascript" src="popup.js"></script>
     </body>
 </html>
