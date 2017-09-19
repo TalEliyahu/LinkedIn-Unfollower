@@ -39,9 +39,6 @@
 				font-weight: normal;
 				font-size: 13px;
 			}
-			.TabContent {
-				height: auto;
-			}
 			input[type="number"], input[type="password"], input[type="email"], input[type="tel"], input[type="text"], input[type="file"], select
 			{
 				color: #4b4f56;
@@ -120,23 +117,47 @@
 				color: #ffffff;
 				border: 1px solid #4267b2;
 			}
+			
+			#menu {
+				padding: 7.5px;
+				font-size: 14px;
+			}
+			
+			#menu .expandable>.details {display: none;}
+			#menu .expandable.expanded>.details {display: inline;}
+			#menu .expandable>.expander::after {content: '…';}
+			#menu .expandable.expanded>.expander::after {content: ':';}
 		</style>
     </head>
     <body>
-		<div class="TabContent OpenFacebook" style="display: block;">
-			<div style="color: aliceblue; background-color: #005E93; border-bottom: 1px solid #ced0d4; padding: 7.5px; text-align: center; cursor: default;">LinkedIn Unfollower</div>
-			<div style="padding: 7.5px;">
-				<a style="font-size: 14px; color: #4b4f56; display: block; margin-bottom: 7.5px; cursor: default;" name="UnfollowPeople"> ▪ Unfollow People You are Following</a>
-				<a style="font-size: 14px; color: #4b4f56; cursor: default;" name="UnfollowFollowers"> ▪ Unfollow People Who are Following You</a>
-			</div>
-			<div class="actions">
-				<button class="button" name="Close">Close</button>
-				<span style="float: right; color: aliceblue; padding: 5px 0 0 0;">
-					<a href="https://ste.sg/" target="_blank" style="color: aliceblue;">Visit our website STE.sg</a>
-					 | 
-					<a href="https://github.com/Singapore-Tech-Entrepreneurs/LinkedIn-Unfollower" target="_blank" style="color: aliceblue;">GitHub project</a>
-				</span>
-			</div>
+		<div style="color: aliceblue; background-color: #005E93; border-bottom: 1px solid #ced0d4; padding: 7.5px; text-align: center; cursor: default;">LinkedIn Unfollower</div>
+		<ul id="menu">
+			<li class="expandable"><a class="expander">Unfollow People You are Following</a><span class="details">
+				<ul>
+					<li><a data-command="unfollowAll">All</a></li>
+					<li><a data-command="unfollowConnections">Connections</a></li>
+					<li><a data-command="unfollowOutOfNetwork">Out-of-Network</a></li>
+					<li><a data-command="unfollowCompanies">Companies</a></li>
+				</ul>
+			</span></li>
+			<li><a data-command="unfollowFollowers">Unfollow People Who are Following You</a></li>
+			<li class="expandable"><a class="expander">Ignore Received Invitations</a><span class="details">
+				<ul>
+					<li><a data-command="ignoreInvitations">All Invitations</a></li>
+					<li><a data-command="ignoreInvitationsWithCommonCompany">Your Company</a></li>
+					<li><a data-command="ignoreInvitationsWithCommonEducation">Your School</a></li>
+					<li><a data-command="ignoreInvitationsWithCommonConnection">Having Mutual Connections with You</a></li>
+				</ul>
+			</span></li>
+			<li><a data-command="withdrawSentInvitations">Withdraw Sent Invitations</a></li>
+		</ul>
+		<div class="actions">
+			<button class="button" name="Close">Close</button>
+			<span style="float: right; color: aliceblue; padding: 5px 0 0 0;">
+				<a href="https://ste.sg/" target="_blank" style="color: aliceblue;">Visit our website STE.sg</a>
+					| 
+				<a href="https://github.com/Singapore-Tech-Entrepreneurs/LinkedIn-Unfollower" target="_blank" style="color: aliceblue;">GitHub project</a>
+			</span>
 		</div>
 		<script type="text/javascript" src="popup.js"></script>
     </body>
