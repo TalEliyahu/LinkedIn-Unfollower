@@ -1,11 +1,10 @@
-document.querySelector("[name=\"UnfollowPeople\"]").onclick = function() {
-	chrome.extension.sendMessage({msg: "UnfollowPeople"});
-	window.close();
-};
-document.querySelector("[name=\"UnfollowFollowers\"]").onclick = function() {
-	chrome.extension.sendMessage({msg: "UnfollowFollowers"});
-	window.close();
-};
-document.querySelector("[name=\"Close\"]").onclick = function() {
-	window.close();
-};
+Array.prototype.forEach.call(document.querySelectorAll('.expandable'), function(expandable) {
+	expandable.querySelector('.expander').addEventListener('click', function(e) {expandable.classList.toggle('expanded');});
+});
+
+Array.prototype.forEach.call(document.querySelectorAll('[data-command]'), function(link) {
+	link.addEventListener('click', function(e) {
+		chrome.extension.sendMessage({msg: link.getAttribute('data-command')});
+		close();
+	});
+});
