@@ -8,3 +8,5 @@ Array.prototype.forEach.call(document.querySelectorAll('[data-command]'), functi
 		close();
 	});
 });
+
+document.querySelector('#close').addEventListener('click', function(e) {close();});
