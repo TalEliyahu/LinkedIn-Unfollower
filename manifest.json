@@ -1,20 +1,20 @@
 {
-   "background": {
-      "scripts": [ "background.js" ]
-   },
-   "browser_action": {
-      "default_icon": "images/icon.png",
-      "default_popup": "popup.html"
-   },
-   "description": "LinkedIn Unfollow People...",
-   "icons": {
-      "128": "images/icon.png"
-   },
-   "incognito": "split",
-   "manifest_version": 2,
-   "minimum_chrome_version": "29",
-   "name": "LinkedIn Unfollower",
-   "permissions": [ 
+	"background": {
+		"scripts": [ "background.js" ]
+	},
+	"browser_action": {
+		"default_icon": "images/icon.png",
+		"default_popup": "popup.html"
+	},
+	"description": "LinkedIn Unfollow People...",
+	"icons": {
+		"128": "images/icon.png"
+	},
+	"incognito": "split",
+	"manifest_version": 2,
+	"minimum_chrome_version": "29",
+	"name": "LinkedIn Unfollower",
+	"permissions": [ 
 		"tabs",
 		"activeTab",
 		"identity",
@@ -23,7 +23,7 @@
 		"contextMenus",
 		"*://*.linkedin.com/*",
 		"notifications"
-   ],
-   "version": "1.0.9",
-   "web_accessible_resources": [ "script.js", "images/loading.gif" ]
+	],
+	"version": "1.0.9",
+	"web_accessible_resources": [ "script.js", "images/loading.gif" ]
 }
