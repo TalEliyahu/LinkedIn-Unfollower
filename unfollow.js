@@ -107,7 +107,7 @@ var config = {
 	
 	window.unfollow = function(filterButtonControlName) {
 		doWhenLoaded(function doUnfollow() {
-			function getFollowUnfollowButtons() {return document.querySelectorAll('.feed-s-follow-recommendation-card [data-control-name="actor_follow_toggle"]');}
+			function getFollowUnfollowButtons() {return document.querySelectorAll('button.follows-recommendation-card__follow-btn');}
 			
 			if (filterButtonControlName) {
 				retryWhileFails(function() {
