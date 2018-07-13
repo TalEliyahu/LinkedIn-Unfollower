@@ -24,6 +24,6 @@
 		"*://*.linkedin.com/*",
 		"notifications"
 	],
-	"version": "1.1.4",
+	"version": "1.1.5",
 	"web_accessible_resources": [ "script.js", "images/loading.gif" ]
 }
