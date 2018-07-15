@@ -24,6 +24,13 @@ header {
 	justify-content: center;
 }
 
+header #options{
+	position: absolute;
+	top: 4px;
+	right: 10px;
+	cursor: pointer;
+}
+
 #menu {
 	color: black;
 	list-style-type: square;
@@ -36,12 +43,37 @@ header {
 	text-decoration: underline;
 }
 
+#options_content{
+	padding: 5px;
+	box-sizing: border-box;
+	display: none;
+}
+
+#options_content table{
+	border: 0;
+	border-collapse: collapse;
+}
+
+#options_content table tr td:first-of-type{
+	padding-right: 10px;
+}
+
+#options_content input{
+	margin-top: 10px;
+	margin-bottom: 5px;
+	font-size: 12px;
+}
+
+#options_content #close_options {
+	background-color: #FFFFFF !important;
+}
+
 footer {
 	align-items: center;
 	border-top: 1px solid #ced0d4;
 	padding: 0 0.35rem;
 }
-footer button#close {
+footer button#close, #options_content #close_options {
 	background: #f6f7f9;
 	border: 1px solid #ced0d4;
 	color: #4b4f56;
@@ -50,6 +82,7 @@ footer button#close {
 	height: 1.3rem;
 	letter-spacing: 0.05rem;
 	text-transform: uppercase;
+	cursor: pointer;
 }
 footer .bottom-links {
 	flex-grow: 1;

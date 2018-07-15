@@ -8,7 +8,7 @@
 		<base target="_blank">
 	</head>
 	<body>
-		<header>LinkedIn Unfollower</header>
+		<header>LinkedIn Unfollower <img id="options" src="images/options.png" border="0"></header>
 		<ul id="menu">
 			<li class="expandable"><a class="expander">Unfollow People You are Following</a><span class="details">
 				<ul>
@@ -29,12 +29,48 @@
 			</span></li>
 			<li><a data-command="withdrawSentInvitations">Withdraw Sent Invitations</a></li>
 		</ul>
+		<div id="options_content">
+			<table>
+				<tr>
+					<td align="right">
+						Wait
+						<br/>
+						(milliseconds)
+					</td>
+					<td>
+						<input type="text" id="wait" value=""/>
+						<br/>
+						Wait x milliseconds after each follow to prevent aggresive following.
+					</td>
+				</tr>
+				
+				<tr>
+					<td align="right">
+						Limit
+					</td>
+					<td>
+						<input type="text" id="limit" value=""/>
+						<br/>
+						The extension will stop following when the limit (successfully followed profiles) is reached. Leave this field empty to set no limit.
+					</td>
+				</tr>
+				
+				<tr>
+					<td>
+						
+					</td>
+					<td>
+						<input type="button" id="close_options" value="CLOSE OPTIONS"/>
+					</td>
+				</tr>
+			</table>
+		</div>
 		<footer>
 			<button id="close">Close</button>
 			<span class="bottom-links">
-				<a href="https://ste.sg/">Visit our website STE.sg</a>
+				<a href="https://www.facebook.com/SingaporeTechEntrepreneurs/">STE.sg Page</a>
 				| 
-				<a href="https://github.com/Singapore-Tech-Entrepreneurs/LinkedIn-Unfollower/">GitHub project</a>
+				<a href="https://github.com/Singapore-Tech-Entrepreneurs">GitHub Projects</a>
 			</span>
 		</footer>
 	</body>

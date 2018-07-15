@@ -28,9 +28,9 @@ var config = {
 			+ '<div name="Working" style="display: none;">'
 			+ '    <div name="Message" style="font-size: 14px; color: #4b4f56; margin: 7.5px; cursor: default; display: block;"></div>'
 			+ '    <div style="background-color: #005E93; border-top: 1px solid #ced0d4; padding: 7.5px;">'
-			+ '        <button name="Close" '
+			+ '     <a href="">   <button  name="Close" id="stopBB"'
 			+ '        style="background-color: #f6f7f9; color: #4b4f56; border: 1px solid #ced0d4; padding: 0 8px; line-height: 27.5px; font-weight: normal; font-family: \'Gill Sans\', \'Gill Sans MT\', \'Myriad Pro\', \'DejaVu Sans Condensed\', Helvetica, Arial, \'sans-serif\'; font-size: 14px;" '
-			+ '        >Stop</button>'
+			+ '        >Stop</button></a>'
 			+ '    </div>'
 			+ '</div>'
 			+ '<div name="Finished" style="display: none;">'
@@ -60,7 +60,10 @@ var config = {
 		});
 		
 		finishedDiv.querySelector('[name=Close]').addEventListener('click', function(e) {close();});
-		
+		/*
+		document.getElementById("stopBB").addEventListener("click",function(){
+			window.location.reload();
+		}) */
 		ourForm.setProgressMessage = function(messageText) {
 			workingDiv.querySelector('[name=Message]').innerText = messageText;
 		};
@@ -73,7 +76,13 @@ var config = {
 		};
 
 		ourForm.show = function() {document.body.appendChild(rootDiv);};
-		function close() {document.body.removeChild(rootDiv);}
+	    
+		function close() {
+			window.location.reload();
+			document.body.removeChild(rootDiv);
+			
+			
+			}
 	}
 	
 	
@@ -107,7 +116,7 @@ var config = {
 	
 	window.unfollow = function(filterButtonControlName) {
 		doWhenLoaded(function doUnfollow() {
-			function getFollowUnfollowButtons() {return document.querySelectorAll('button.follows-recommendation-card__follow-btn');}
+			function getFollowUnfollowButtons() {return document.querySelectorAll('.follows-recommendation-card__follow-btn[data-control-name="actor_follow_toggle"]');}
 			
 			if (filterButtonControlName) {
 				retryWhileFails(function() {
@@ -138,6 +147,16 @@ var config = {
 				var processedItemsCount;
 				function updateProgressMessage() {ourForm.setProgressMessage(processedItemsCount + ' were unfollowed so far...');}
 				var loopingId;
+				var wait;
+				var limit;
+				
+				chrome.storage.sync.get(['wait'], function(result){
+					wait = parseInt(result.wait);
+				});
+				
+				chrome.storage.sync.get(['limit'], function(result){
+					limit = parseInt(result.limit);
+				});
 				
 				ourForm.onStart = function() {
 					totalItemsCount = 0;
@@ -152,15 +171,25 @@ var config = {
 							totalItemsCount = buttons.length;
 							//updateProgressMessage();
 							waitingEndTime = time + 5000;
-							buttons.forEach(function(button) {
-								if (!button.classList.contains('is-following'))
-									return;
-								
-								if (!config.imitate) button.click();
-								else {button.classList.remove('is-following'); button.innerHTML = '';}
-								
-								++processedItemsCount;
-								updateProgressMessage();
+							buttons.forEach(function(button, index) {
+								setTimeout(function(){
+									if(limit != '' && limit == processedItemsCount){
+										clearTimeout(loopingId);
+										ourForm.setProgressMessage('Finished after unfollowing ' + processedItemsCount + ' items.');
+										ourForm.finished();
+									}else{
+										if (!button.classList.contains('is-following'))
+											return;
+										
+										if (!config.imitate){
+											button.click();
+										}
+										else {button.classList.remove('is-following'); button.innerHTML = '';}
+										
+										++processedItemsCount;
+									updateProgressMessage();
+									}
+								}, wait * index);
 							});
 							document.scrollingElement.scrollTop = document.scrollingElement.scrollHeight;
 							return false;
@@ -179,6 +208,7 @@ var config = {
 					if (loopingId)
 						clearTimeout(loopingId);
 					ourForm.setProgressMessage('Cancelled after unfollowing ' + processedItemsCount + ' items!');
+				
 				};
 			}
 			else {
@@ -240,11 +270,11 @@ var config = {
 				ourForm.onStart = function() {
 					processedItems = new Set();
 					loopingId = retryWhileFails(function() {
-						var button = document.querySelector('.mn-invitation-card [data-control-name="decline"]');
+						var button = document.querySelector('.invitation-card__action-btn[data-control-name="decline"]');
 						if (button) {
 							if (!processedItems.has(button)) {
 								if (!config.imitate) button.click();
-								else {var li = button.closest('.mn-invitation-card'); li.parentNode.removeChild(li);}
+								else {var li = button.closest('.invitation-card__action-btn'); li.parentNode.removeChild(li);}
 								processedItems.add(button);
 								ourForm.setProgressMessage('Ignored ' + processedItems.size + ' invitations so far...');
 							}
@@ -273,11 +303,11 @@ var config = {
 				ourForm.onStart = function() {
 					processedItems = new Set();
 					loopingId = retryWhileFails(function() {
-						var button = document.querySelector('.mn-person-card [data-control-name="withdraw_single"]');
+						var button = document.querySelector('.invitation-card__action-btn[data-control-name="withdraw_single"]');
 						if (button) {
 							if (!processedItems.has(button)) {
 								if (!config.imitate) button.click();
-								else {var li = button.closest('.mn-person-card'); li.parentNode.removeChild(li);}
+								else {var li = button.closest('.invitation-card__action-btn'); li.parentNode.removeChild(li);}
 								processedItems.add(button);
 								ourForm.setProgressMessage('Withdrawed ' + processedItems.size + ' invitations so far...');
 								return config.withdrawMinimalPause;
@@ -300,7 +330,7 @@ var config = {
 				ourForm.onStart = function() {
 					processedItems = new Set();
 					loopingId = retryWhileFails(function() {
-						var buttons = document.querySelectorAll('.mn-person-card [data-control-name="withdraw_single"]');
+						var buttons = document.querySelectorAll('.invitation-card__action-btn[data-control-name="withdraw_single"]');
 						if (buttons.length != 0) {
 							buttons.forEach(function(button) {
 								if (processedItems.has(button))
