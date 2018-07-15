@@ -1,5 +1,5 @@
 You follow massive amounts of people and can't seem to get quality content from people you actually want to follow on? 
-Now you bulk unfollow people or companies.
+Now you can bulk unfollow people or companies.
 
 Options:
 
