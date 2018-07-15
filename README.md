@@ -1,4 +1,14 @@
-# Can I bulk unfollow people or companies on LinkedIn?
+You follow massive amounts of people and can't seem to get quality content from people you actually want to follow on? 
+Now you bulk unfollow people or companies.
+
+Options:
+
+- Unfollow people, companies, out-of-Network connections that you are following.
+- Unfollow people who are following you.
+- Ignore Received Invitations.
+- Withdraw Sent Invitations
+
+
 
 1. If you are using chrome go the page that shows who you are following  https://www.linkedin.com/feed/following/
 2. Press F12 to see the console.
