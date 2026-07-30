@@ -68,37 +68,41 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		active: true,
 		currentWindow: true
 	}, function(tabs) {
+		function injectScript(targetTab) {
+			chrome.scripting.executeScript(
+				{
+					target: {tabId: targetTab.id},
+					files: ['unfollow.js']
+				},
+				function(executedScriptResults) {
+					chrome.scripting.executeScript({
+						target: {tabId: targetTab.id},
+						func: function(fnName, arg) {
+							// Calls the matching function (unfollow/ignoreInvitations/withdraw)
+							// that was just injected via unfollow.js, in the page's isolated world.
+							if (typeof window[fnName] === 'function') {
+								window[fnName](arg);
+							} else {
+								console.error('LinkedIn Unfollower: function "' + fnName + '" not found after injecting unfollow.js');
+							}
+						},
+						args: [action.fn, action.arg]
+					});
+				}
+			);
+		}
+		if (tabs[0].url && tabs[0].url.indexOf(action.url) === 0) {
+			injectScript(tabs[0]);
+			return;
+		}
 		chrome.tabs.update(tabs[0].id, {url: action.url}, function(updatedTab) {
-			function injectScript() {
-				chrome.scripting.executeScript(
-					{
-						target: {tabId: updatedTab.id},
-						files: ['unfollow.js']
-					},
-					function(executedScriptResults) {
-						chrome.scripting.executeScript({
-							target: {tabId: updatedTab.id},
-							func: function(fnName, arg) {
-								// Calls the matching function (unfollow/ignoreInvitations/withdraw)
-								// that was just injected via unfollow.js, in the page's isolated world.
-								if (typeof window[fnName] === 'function') {
-									window[fnName](arg);
-								} else {
-									console.error('LinkedIn Unfollower: function "' + fnName + '" not found after injecting unfollow.js');
-								}
-							},
-							args: [action.fn, action.arg]
-						});
-					}
-				);
-			}
 			if (updatedTab.status === 'complete')
-				injectScript();
+				injectScript(updatedTab);
 			else
 				chrome.tabs.onUpdated.addListener(function listener(updatedTabId, changeInfo, tab) {
 					if (updatedTabId === updatedTab.id && changeInfo.status === 'complete') {
 						chrome.tabs.onUpdated.removeListener(listener);
-						injectScript();
+						injectScript(updatedTab);
 					}
 				});
 		});

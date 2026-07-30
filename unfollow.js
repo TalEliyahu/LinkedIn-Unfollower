@@ -263,21 +263,49 @@ var config = {
 
 	window.unfollowNetworkManager = function() {
 		doWhenLoaded(function doUnfollow() {
+			if (document.getElementById('LiUnfollowBar'))
+				return;
+
 			function getFollowingButtons() {return document.querySelectorAll('button[aria-label^="Click to stop following"]');}
 
-			var ourForm = new OurForm('Are You Sure You Want to Unfollow Everybody On This Page?');
-			var processedItemsCount;
+			var bar = document.createElement('div');
+			bar.id = 'LiUnfollowBar';
+			bar.style = "position: fixed; bottom: 20px; right: 20px; z-index: 9999999999; background: #f6f7f9; border: 1px solid #ced0d4; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); font-family: 'Gill Sans', 'Gill Sans MT', 'Myriad Pro', 'DejaVu Sans Condensed', Helvetica, Arial, 'sans-serif'; font-size: 13px; color: #4b4f56; padding: 10px 12px; display: flex; align-items: center; gap: 10px;";
+			bar.innerHTML = '<span name="Message">Unfollow everyone on this page?</span>'
+				+ '<button name="Toggle" style="background-color: #005E93; color: aliceblue; border: none; border-radius: 4px; padding: 6px 12px; font-size: 13px; cursor: pointer;">Start</button>'
+				+ '<button name="Dismiss" style="background: none; border: none; color: #4b4f56; cursor: pointer; font-size: 16px; line-height: 1; padding: 0;">&times;</button>';
+			document.body.appendChild(bar);
+
+			var messageEl = bar.querySelector('[name=Message]');
+			var toggleButton = bar.querySelector('[name=Toggle]');
+			var dismissButton = bar.querySelector('[name=Dismiss]');
+
+			var running = false;
+			var processedItemsCount = 0;
 			var loopingId;
-			ourForm.onStart = function() {
+
+			function stop(finalMessage) {
+				running = false;
+				if (loopingId)
+					clearTimeout(loopingId);
+				toggleButton.innerText = 'Start';
+				messageEl.innerText = finalMessage;
+			}
+
+			function start() {
+				running = true;
 				processedItemsCount = 0;
-				ourForm.setProgressMessage(processedItemsCount + ' were unfollowed so far...');
+				toggleButton.innerText = 'Stop';
+				messageEl.innerText = processedItemsCount + ' unfollowed so far...';
 				var waitingEndTime = -Infinity;
 				loopingId = retryWhileFails(function() {
+					if (!running)
+						return;
 					var confirmButton = document.querySelector('button[data-test-dialog-primary-btn]');
 					if (confirmButton) {
 						confirmButton.click();
 						++processedItemsCount;
-						ourForm.setProgressMessage(processedItemsCount + ' were unfollowed so far...');
+						messageEl.innerText = processedItemsCount + ' unfollowed so far...';
 						waitingEndTime = Date.now() + 5000;
 						return 1500;
 					}
@@ -289,16 +317,21 @@ var config = {
 					var time = Date.now();
 					if (time <= waitingEndTime)
 						return 500;
-					ourForm.setProgressMessage('Finished after unfollowing ' + processedItemsCount + ' items.');
-					ourForm.finished();
+					stop('Finished, unfollowed ' + processedItemsCount + '.');
 				});
-			};
-			ourForm.onAbort = function() {
+			}
+
+			toggleButton.addEventListener('click', function() {
+				if (running)
+					stop('Stopped after unfollowing ' + processedItemsCount + '.');
+				else
+					start();
+			});
+			dismissButton.addEventListener('click', function() {
 				if (loopingId)
 					clearTimeout(loopingId);
-				ourForm.setProgressMessage('Cancelled after unfollowing ' + processedItemsCount + ' items!');
-			};
-			ourForm.show();
+				document.body.removeChild(bar);
+			});
 		});
 	};
 
