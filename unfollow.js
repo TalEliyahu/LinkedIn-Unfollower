@@ -271,25 +271,26 @@ var config = {
 			ourForm.onStart = function() {
 				processedItemsCount = 0;
 				ourForm.setProgressMessage(processedItemsCount + ' were unfollowed so far...');
+				var waitingEndTime = -Infinity;
 				loopingId = retryWhileFails(function() {
-					var buttons = getFollowingButtons();
-					if (!buttons.length) {
-						ourForm.setProgressMessage('Finished after unfollowing ' + processedItemsCount + ' items.');
-						ourForm.finished();
-						return;
-					}
-					var button = buttons[0];
-					button.click();
-					retryWhileFails(function() {
-						var confirmButton = document.querySelector('button[data-test-dialog-primary-btn]');
-						if (!confirmButton)
-							return false;
+					var confirmButton = document.querySelector('button[data-test-dialog-primary-btn]');
+					if (confirmButton) {
 						confirmButton.click();
 						++processedItemsCount;
 						ourForm.setProgressMessage(processedItemsCount + ' were unfollowed so far...');
+						waitingEndTime = Date.now() + 5000;
 						return 1500;
-					});
-					return 1500;
+					}
+					var buttons = getFollowingButtons();
+					if (buttons.length) {
+						buttons[0].click();
+						return 500;
+					}
+					var time = Date.now();
+					if (time <= waitingEndTime)
+						return 500;
+					ourForm.setProgressMessage('Finished after unfollowing ' + processedItemsCount + ' items.');
+					ourForm.finished();
 				});
 			};
 			ourForm.onAbort = function() {
