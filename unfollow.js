@@ -95,7 +95,7 @@ var config = {
 		})();
 	}
 	
-	function isVisible(element) {return !!element.offsetParent;}
+	function isVisible(element) {return !!element && !!element.offsetParent;}
 	
 	function doWhenLoaded(action) {
 		function doActionAfterLoadAnimation() {
@@ -257,6 +257,46 @@ var config = {
 					ourForm.setProgressMessage('Cancelled after unfollowing ' + processedItemsCount + ' items!');
 				};
 			}
+			ourForm.show();
+		});
+	};
+
+	window.unfollowNetworkManager = function() {
+		doWhenLoaded(function doUnfollow() {
+			function getFollowingButtons() {return document.querySelectorAll('button[aria-label^="Following"]');}
+
+			var ourForm = new OurForm('Are You Sure You Want to Unfollow Everybody On This Page?');
+			var processedItemsCount;
+			var loopingId;
+			ourForm.onStart = function() {
+				processedItemsCount = 0;
+				ourForm.setProgressMessage(processedItemsCount + ' were unfollowed so far...');
+				loopingId = retryWhileFails(function() {
+					var buttons = getFollowingButtons();
+					if (!buttons.length) {
+						ourForm.setProgressMessage('Finished after unfollowing ' + processedItemsCount + ' items.');
+						ourForm.finished();
+						return;
+					}
+					var button = buttons[0];
+					button.click();
+					retryWhileFails(function() {
+						var confirmButton = document.querySelector('button[data-test-dialog-primary-btn]');
+						if (!confirmButton)
+							return false;
+						confirmButton.click();
+						++processedItemsCount;
+						ourForm.setProgressMessage(processedItemsCount + ' were unfollowed so far...');
+						return 1500;
+					});
+					return 1500;
+				});
+			};
+			ourForm.onAbort = function() {
+				if (loopingId)
+					clearTimeout(loopingId);
+				ourForm.setProgressMessage('Cancelled after unfollowing ' + processedItemsCount + ' items!');
+			};
 			ourForm.show();
 		});
 	};

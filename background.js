@@ -24,6 +24,11 @@ var actionsByMsgs = {
 		fn: 'unfollow',
 		arg: null,
 	},
+	unfollowNetworkManager: {
+		url: 'https://www.linkedin.com/mynetwork/network-manager/people-follow/following/',
+		fn: 'unfollowNetworkManager',
+		arg: null,
+	},
 	ignoreInvitations: {
 		url: 'https://www.linkedin.com/mynetwork/invitation-manager/?filterCriteria=',
 		fn: 'ignoreInvitations',
