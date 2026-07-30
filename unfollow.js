@@ -263,7 +263,7 @@ var config = {
 
 	window.unfollowNetworkManager = function() {
 		doWhenLoaded(function doUnfollow() {
-			function getFollowingButtons() {return document.querySelectorAll('button[aria-label^="Following"]');}
+			function getFollowingButtons() {return document.querySelectorAll('button[aria-label^="Click to stop following"]');}
 
 			var ourForm = new OurForm('Are You Sure You Want to Unfollow Everybody On This Page?');
 			var processedItemsCount;
