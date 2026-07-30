@@ -283,6 +283,7 @@ var config = {
 			var running = false;
 			var processedItemsCount = 0;
 			var loopingId;
+			var emptyScrollCount;
 
 			function stop(finalMessage) {
 				running = false;
@@ -295,9 +296,9 @@ var config = {
 			function start() {
 				running = true;
 				processedItemsCount = 0;
+				emptyScrollCount = 0;
 				toggleButton.innerText = 'Stop';
 				messageEl.innerText = processedItemsCount + ' unfollowed so far...';
-				var waitingEndTime = -Infinity;
 				loopingId = retryWhileFails(function() {
 					if (!running)
 						return;
@@ -305,8 +306,8 @@ var config = {
 					if (confirmButton) {
 						confirmButton.click();
 						++processedItemsCount;
+						emptyScrollCount = 0;
 						messageEl.innerText = processedItemsCount + ' unfollowed so far...';
-						waitingEndTime = Date.now() + 5000;
 						return 1500;
 					}
 					var buttons = getFollowingButtons();
@@ -314,10 +315,13 @@ var config = {
 						buttons[0].click();
 						return 500;
 					}
-					var time = Date.now();
-					if (time <= waitingEndTime)
-						return 500;
-					stop('Finished, unfollowed ' + processedItemsCount + '.');
+					if (emptyScrollCount >= 4) {
+						stop('Finished, unfollowed ' + processedItemsCount + '.');
+						return;
+					}
+					++emptyScrollCount;
+					document.scrollingElement.scrollTop = document.scrollingElement.scrollHeight;
+					return 1000;
 				});
 			}
 
