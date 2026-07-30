@@ -10,7 +10,7 @@ Array.prototype.forEach.call(document.querySelectorAll('.expandable'), function(
 
 Array.prototype.forEach.call(document.querySelectorAll('[data-command]'), function(link) {
 	link.addEventListener('click', function(e) {
-		chrome.extension.sendMessage({msg: link.getAttribute('data-command')});
+		chrome.runtime.sendMessage({msg: link.getAttribute('data-command')});
 		close();
 	});
 });
