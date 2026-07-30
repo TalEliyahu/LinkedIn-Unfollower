@@ -5,84 +5,28 @@ var config = {
 };
 
 (function() {
-	function OurForm(confirmationText) {
-		var ourForm = this;
-		
+	function StatusBar(initialMessage) {
+		var statusBar = this;
+
 		var rootDiv = document.createElement('div');
-		rootDiv.id = 'LiUnfollow';
-		rootDiv.style = "width: 300px; height: auto; background: #f6f7f9; z-index: 9999999999; position: fixed; top: calc(50% - 100px); right: calc(50% - 150px); border: 1px solid #ced0d4; border-radius: 2px; font-family: \'Gill Sans\', \'Gill Sans MT\', \'Myriad Pro\', \'DejaVu Sans Condensed\', Helvetica, Arial, \'sans-serif\'; font-size: medium; font-weight: normal;";
-		rootDiv.innerHTML = '<div style="color: aliceblue; background-color: #005E93; border-bottom: 1px solid #ced0d4; padding: 7.5px; text-align: center;">'
-			+ '    LinkedIn Unfollower'
-			+ '</div>'
-			+ '<div name="Confirmation">'
-			+ '    <div style="font-size: 14px; color: #4b4f56; margin: 7.5px; display: block; cursor: default;">' + confirmationText + '</div>'
-			+ '    <div style="background-color: #005E93; border-top: 1px solid #ced0d4; padding: 7.5px;">'
-			+ '        <button type="button" name="Start" '
-			+ '        style="background-color: #f6f7f9; color: #4b4f56; border: 1px solid #ced0d4; padding: 0 8px; line-height: 27.5px; font-weight: normal; font-family: \'Gill Sans\', \'Gill Sans MT\', \'Myriad Pro\', \'DejaVu Sans Condensed\', Helvetica, Arial, \'sans-serif\'; font-size: 14px;" '
-			+ '        >Yes</button>'
-			+ '        <button name="Close" '
-			+ '        style="background-color: #f6f7f9; color: #4b4f56; border: 1px solid #ced0d4; padding: 0 8px; line-height: 27.5px; font-weight: normal; font-family: \'Gill Sans\', \'Gill Sans MT\', \'Myriad Pro\', \'DejaVu Sans Condensed\', Helvetica, Arial, \'sans-serif\'; font-size: 14px; margin-left: 7.5px;" '
-			+ '        >No</button>'
-			+ '    </div>'
-			+ '</div>'
-			+ '<div name="Working" style="display: none;">'
-			+ '    <div name="Message" style="font-size: 14px; color: #4b4f56; margin: 7.5px; cursor: default; display: block;"></div>'
-			+ '    <div style="background-color: #005E93; border-top: 1px solid #ced0d4; padding: 7.5px;">'
-			+ '     <a href="">   <button  name="Close" id="stopBB"'
-			+ '        style="background-color: #f6f7f9; color: #4b4f56; border: 1px solid #ced0d4; padding: 0 8px; line-height: 27.5px; font-weight: normal; font-family: \'Gill Sans\', \'Gill Sans MT\', \'Myriad Pro\', \'DejaVu Sans Condensed\', Helvetica, Arial, \'sans-serif\'; font-size: 14px;" '
-			+ '        >Stop</button></a>'
-			+ '    </div>'
-			+ '</div>'
-			+ '<div name="Finished" style="display: none;">'
-			+ '    <div name="Message" style="font-size: 14px; color: #4b4f56; margin: 7.5px; cursor: default; display: block;"></div>'
-			+ '    <div style="background-color: #005E93; border-top: 1px solid #ced0d4; padding: 7.5px;">'
-			+ '        <button name="Close" '
-			+ '        style="background-color: #f6f7f9; color: #4b4f56; border: 1px solid #ced0d4; padding: 0 8px; line-height: 27.5px; font-weight: normal; font-family: \'Gill Sans\', \'Gill Sans MT\', \'Myriad Pro\', \'DejaVu Sans Condensed\', Helvetica, Arial, \'sans-serif\'; font-size: 14px;" '
-			+ '        >Close</button>'
-			+ '    </div>'
-			+ '</div>';
-		var confirmationDiv = rootDiv.querySelector('[name=Confirmation]');
-		var workingDiv = rootDiv.querySelector('[name=Working]');
-		var finishedDiv = rootDiv.querySelector('[name=Finished]');
+		rootDiv.style = "position: fixed; bottom: 20px; right: 20px; z-index: 9999999999; background: #f6f7f9; border: 1px solid #ced0d4; border-radius: 6px; box-shadow: 0 2px 8px rgba(0,0,0,0.2); font-family: 'Gill Sans', 'Gill Sans MT', 'Myriad Pro', 'DejaVu Sans Condensed', Helvetica, Arial, 'sans-serif'; font-size: 13px; color: #4b4f56; padding: 10px 12px; display: flex; align-items: center; gap: 10px;";
+		rootDiv.innerHTML = '<span name="Message">' + initialMessage + '</span>'
+			+ '<button name="Stop" style="background-color: #005E93; color: aliceblue; border: none; border-radius: 4px; padding: 6px 12px; font-size: 13px; cursor: pointer;">Stop</button>'
+			+ '<button name="Dismiss" style="background: none; border: none; color: #4b4f56; cursor: pointer; font-size: 16px; line-height: 1; padding: 0;">&times;</button>';
+		var messageEl = rootDiv.querySelector('[name=Message]');
+		var stopButton = rootDiv.querySelector('[name=Stop]');
+		var dismissButton = rootDiv.querySelector('[name=Dismiss]');
 
-		ourForm.onStart = function() {};
-		confirmationDiv.querySelector('[name=Start]').addEventListener('click', function(e) {
-			confirmationDiv.style.display = 'none';
-			workingDiv.style.display = 'block';
-			ourForm.onStart();
+		statusBar.onAbort = function() {};
+		stopButton.addEventListener('click', function(e) {
+			statusBar.onAbort();
+			statusBar.finished();
 		});
-		confirmationDiv.querySelector('[name=Close]').addEventListener('click', function(e) {close();});
-		
-		ourForm.onAbort = function() {};
-		workingDiv.querySelector('[name=Close]').addEventListener('click', function(e) {
-			ourForm.onAbort();
-			ourForm.finished();
-		});
-		
-		finishedDiv.querySelector('[name=Close]').addEventListener('click', function(e) {close();});
-		/*
-		document.getElementById("stopBB").addEventListener("click",function(){
-			window.location.reload();
-		}) */
-		ourForm.setProgressMessage = function(messageText) {
-			workingDiv.querySelector('[name=Message]').innerText = messageText;
-		};
+		dismissButton.addEventListener('click', function(e) {document.body.removeChild(rootDiv);});
 
-		ourForm.finished = function() {
-			confirmationDiv.style.display = 'none';
-			workingDiv.style.display = 'none';
-			finishedDiv.querySelector('[name=Message]').innerText = workingDiv.querySelector('[name=Message]').innerText;
-			finishedDiv.style.display = 'block';
-		};
-
-		ourForm.show = function() {document.body.appendChild(rootDiv);};
-	    
-		function close() {
-			window.location.reload();
-			document.body.removeChild(rootDiv);
-			
-			
-			}
+		statusBar.setProgressMessage = function(messageText) {messageEl.innerText = messageText;};
+		statusBar.finished = function() {stopButton.style.display = 'none';};
+		statusBar.show = function() {document.body.appendChild(rootDiv);};
 	}
 	
 	
@@ -141,7 +85,7 @@ var config = {
 			}
 			
 
-			var ourForm = new OurForm('Are You Sure You Want to Unfollow Everybody On This Page?');
+			var ourForm = new StatusBar('Unfollowing everybody on this page...');
 			if (!config.smoothUnfollow) {
 				var totalItemsCount;
 				var processedItemsCount;
@@ -258,6 +202,7 @@ var config = {
 				};
 			}
 			ourForm.show();
+			ourForm.onStart();
 		});
 	};
 
@@ -341,7 +286,7 @@ var config = {
 
 	window.ignoreInvitations = function() {
 		doWhenLoaded(function() {
-			var ourForm = new OurForm('Are You Sure You Want to Ignore Every Invitation On This Page?');
+			var ourForm = new StatusBar('Ignoring every invitation on this page...');
 			{
 				var processedItems;
 				var loopingId;
@@ -369,12 +314,13 @@ var config = {
 				};
 			}
 			ourForm.show();
+			ourForm.onStart();
 		});
 	};
 
 	window.withdraw = function() {
 		doWhenLoaded(function() {
-			var ourForm = new OurForm('Are You Sure You Want to Withdraw Every Invitation On This Page?');
+			var ourForm = new StatusBar('Withdrawing every invitation on this page...');
 			if (config.withdrawMinimalPause !== false) {
 				var processedItems;
 				var loopingId;
@@ -430,6 +376,7 @@ var config = {
 				};
 			}
 			ourForm.show();
+			ourForm.onStart();
 		});
 	};
 })();
